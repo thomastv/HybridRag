@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { hybridSearch, generateResponse } from '../services/searchService';
 
-export const search = async (req: Request, res: Response) : Promise<void> => {
+export const search = async (req: Request, res: Response): Promise<void> => {
   const { query } = req.body;
 
   if (!query) {
@@ -16,7 +16,7 @@ export const search = async (req: Request, res: Response) : Promise<void> => {
 
     res.json({ query, answer, context });
   } catch (error) {
-    console.error(error);
+    console.error('Error in search:', error);
     res.status(500).json({ error: 'An error occurred while processing your request' });
   }
 };
