@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { search } from './src/controllers/searchController';
-import { indexDocuments } from './src/controllers/indexController';
+import { search } from './controllers/searchController';
+import { indexDocuments } from './controllers/indexController';
 import dotenv from 'dotenv';
 
 dotenv.config();

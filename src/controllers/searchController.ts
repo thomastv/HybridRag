@@ -16,7 +16,7 @@ export const search = async (req: Request, res: Response): Promise<void> => {
 
     res.json({ query, answer, context });
   } catch (error) {
-    console.error('Error in search:', error);
+    console.error('Error in search');
     res.status(500).json({ error: 'An error occurred while processing your request' });
   }
 };

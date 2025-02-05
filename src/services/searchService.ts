@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const INDEX_NAME = process.env.ELASTICSEARCH_INDEX || 'documents';
-const OPENAI_API_URL = process.env.OPENAI_API_URL || 'https://api.openai.com/v1/completions';
+const OPENAI_API_URL = process.env.OPENAI_API_URL || 'https://api.openai.com/v1/chat/completions';
 
 export async function vectorSearch(queryEmbedding: number[], topK: number = 5): Promise<any[]> {
   try {
@@ -74,23 +74,25 @@ export async function hybridSearch(query: string, topK: number = 5): Promise<any
 
 export async function generateResponse(query: string, context: string): Promise<string> {
   try {
+    console.log(query)
     const response = await axios.post(
       OPENAI_API_URL,
       {
-        model: 'gpt-4o-mini',
-        prompt: `Context: ${context}\n\nQuestion: ${query}\nAnswer:`,
-        max_tokens: 150,
+      model: 'gpt-4o-mini',
+      prompt: `Context: ${context}\n\nQuestion: ${query}\nAnswer:`,
+      max_tokens: 150,
       },
       {
-        headers: {
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-        },
+      headers: {
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
       }
     );
 
     return response.data.choices[0].text.trim();
   } catch (error) {
-    console.error('Error in generateResponse:', error);
+    console.error('Error in generateResponse:');
     throw error;
   }
 }
